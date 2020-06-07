@@ -1,5 +1,6 @@
 package com.example.myweather.logic.network
 
+import com.example.myweather.logic.model.Weather
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,9 +12,8 @@ import kotlin.coroutines.suspendCoroutine
 object MyWeatherNetwork {
 
 //    创建接口动态管理对象
-    private val placeService = ServiceCreator.create(PlaceService::class.java)
-//    private val placeService1 = ServiceCreator.create<PlaceService>()
-
+//    private val placeService = ServiceCreator.create(PlaceService::class.java)
+    private val placeService = ServiceCreator.create<PlaceService>()
 
     suspend fun searchPlaces(query:String) = placeService.searchPlaces(query).await()
     private suspend fun <T> Call<T>.await():T{
@@ -33,6 +33,10 @@ object MyWeatherNetwork {
             })
         }
     }
+
+    private val weatherService = ServiceCreator.create<WeatherService>()
+    suspend fun getDailyWeather(lng:String,lat:String) = weatherService.getDailyWeather(lng,lat).await()
+    suspend fun getRealtimeWeather(lng:String,lat:String)= weatherService.getRealtimeWeather(lng,lat).await()
 
 
 

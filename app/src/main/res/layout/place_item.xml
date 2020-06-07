@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
         android:layout_margin="18dp" />
         <TextView
             android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
             android:id="@+id/placeName"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="20sp"
-            android:layout_gravity="center_vertical"
+            android:text="11111111"
             />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_marginTop="30dp"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
-            android:layout_gravity="center_vertical"
+            android:text="222222222"
             />
 
 </com.google.android.material.card.MaterialCardView>
