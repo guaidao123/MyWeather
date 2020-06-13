@@ -16,6 +16,7 @@ object MyWeatherNetwork {
     private val placeService = ServiceCreator.create<PlaceService>()
 
     suspend fun searchPlaces(query:String) = placeService.searchPlaces(query).await()
+
     private suspend fun <T> Call<T>.await():T{
         return suspendCoroutine {continuation ->
             enqueue(object :Callback<T>{
