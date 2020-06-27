@@ -8,20 +8,19 @@ import com.google.gson.Gson
 
 object PlaceDao {
 
-    fun savePlace(place: Place) {
-        sharedPreferences().edit{
-            putString("place",Gson().toJson(place))
+        fun savePlace(place: Place) {
+            sharedPreferences().edit{
+                putString("place",Gson().toJson(place))
+            }
         }
-    }
 
-    fun getSavedPlace(): Place {
-        val placeJson = sharedPreferences().getString("place", "")
-        return Gson().fromJson(placeJson, Place::class.java)
-    }
+        fun getSavedPlace(): Place {
+            val placeJson = sharedPreferences().getString("place", "")
+            return Gson().fromJson(placeJson, Place::class.java)
+        }
 
-    fun isPlaceSaved() = sharedPreferences().contains("place")
+        fun isPlaceSaved() = sharedPreferences().contains("place")
 
-    private fun sharedPreferences() =
-        MyWeatherApplication.context.getSharedPreferences("sunny_weather", Context.MODE_PRIVATE)
-
+        private fun sharedPreferences() =
+            MyWeatherApplication.context.getSharedPreferences("sunny_weather", Context.MODE_PRIVATE)
 }

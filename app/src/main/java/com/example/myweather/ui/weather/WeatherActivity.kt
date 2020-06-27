@@ -1,7 +1,10 @@
 package com.example.myweather.ui.weather
 
 
+
 import android.content.Context
+import android.content.Intent
+
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +18,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.myweather.MyService
 import com.example.myweather.R
 import com.example.myweather.logic.model.Weather
 import com.example.myweather.logic.model.getSky
@@ -22,13 +26,11 @@ import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.forecast.*
 import kotlinx.android.synthetic.main.life_index.*
 import kotlinx.android.synthetic.main.now.*
-import kotlinx.android.synthetic.main.place_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class WeatherActivity : AppCompatActivity() {
     val viewModel by lazy { ViewModelProviders.of(this).get(WeatherViewModel::class.java)}
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val decorView = window.decorView
@@ -38,17 +40,23 @@ class WeatherActivity : AppCompatActivity() {
         setContentView(R.layout.activity_weather)
         if(viewModel.locationLng.isEmpty()){
             viewModel.locationLng = intent.getStringExtra("location_lng")?:""
+            MyService.locationLng = intent.getStringExtra("location_lng")?:""
         }
         if(viewModel.locationLat.isEmpty()){
             viewModel.locationLat = intent.getStringExtra("location_lat")?:""
+            MyService.locationLat = intent.getStringExtra("location_lat")
         }
         if(viewModel.placeName.isEmpty()){
             viewModel.placeName = intent.getStringExtra("place_name")?:""
         }
+
         viewModel.weatherLiveData.observe(this, Observer {
             result-> val weather = result.getOrNull()
             if(weather!=null){
                 showWeatherInfo(weather)
+                val intent = Intent(this,MyService::class.java)
+                startService(intent)
+
             }else{
                 Toast.makeText(this,"无法成功获取天气信息",Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
@@ -86,15 +94,18 @@ class WeatherActivity : AppCompatActivity() {
         })
     }
 
+
     fun refreshWeather(){
         viewModel.refreshWeather(viewModel.locationLng,viewModel.locationLat)
         swipeRefresh.isRefreshing = true
     }
 
+
     private fun showWeatherInfo(weather:Weather){
         placeName.text = viewModel.placeName
         val realtime = weather.realtime
         val daily = weather.daily
+
 
 //        填充now.xml布局中的数据
         val currentTempText = "${realtime.temperature.toInt()}℃"
@@ -135,4 +146,5 @@ class WeatherActivity : AppCompatActivity() {
         weatherLayout.visibility = View.VISIBLE
 
     }
+
 }
