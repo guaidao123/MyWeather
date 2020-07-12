@@ -30,7 +30,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class WeatherActivity : AppCompatActivity() {
+
     val viewModel by lazy { ViewModelProviders.of(this).get(WeatherViewModel::class.java)}
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val decorView = window.decorView
@@ -38,13 +41,15 @@ class WeatherActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         window.statusBarColor = Color.TRANSPARENT
         setContentView(R.layout.activity_weather)
+
+
         if(viewModel.locationLng.isEmpty()){
             viewModel.locationLng = intent.getStringExtra("location_lng")?:""
             MyService.locationLng = intent.getStringExtra("location_lng")?:""
         }
         if(viewModel.locationLat.isEmpty()){
             viewModel.locationLat = intent.getStringExtra("location_lat")?:""
-            MyService.locationLat = intent.getStringExtra("location_lat")
+            MyService.locationLat = intent.getStringExtra("location_lat")?:""
         }
         if(viewModel.placeName.isEmpty()){
             viewModel.placeName = intent.getStringExtra("place_name")?:""
@@ -54,9 +59,6 @@ class WeatherActivity : AppCompatActivity() {
             result-> val weather = result.getOrNull()
             if(weather!=null){
                 showWeatherInfo(weather)
-                val intent = Intent(this,MyService::class.java)
-                startService(intent)
-
             }else{
                 Toast.makeText(this,"无法成功获取天气信息",Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
@@ -92,6 +94,8 @@ class WeatherActivity : AppCompatActivity() {
                 manger.hideSoftInputFromWindow(drawerView.windowToken,InputMethodManager.HIDE_NOT_ALWAYS)
             }
         })
+
+
     }
 
 
