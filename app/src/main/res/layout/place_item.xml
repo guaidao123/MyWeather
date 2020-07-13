@@ -19,7 +19,6 @@
             android:id="@+id/placeName"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="20sp"
-            android:text="11111111"
             />
 
         <TextView
@@ -29,7 +28,6 @@
             android:layout_marginTop="30dp"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
-            android:text="222222222"
             />
 
 </com.google.android.material.card.MaterialCardView>

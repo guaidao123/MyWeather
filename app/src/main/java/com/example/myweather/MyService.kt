@@ -30,7 +30,7 @@ class MyService : IntentService("Myservice") {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         updateWeather(locationLng,locationLat)
         val manger:AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val anHour = 8*60*60*1000
+        val anHour = 20*1000
         val triggerAtTime = SystemClock.elapsedRealtime()+anHour
         val i = Intent(this, MyService::class.java)
         val pi = PendingIntent.getService(this,0,i,0)
